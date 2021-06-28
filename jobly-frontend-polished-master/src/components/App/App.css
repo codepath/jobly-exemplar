@@ -1,0 +1,7 @@
+.App {
+  display: flex;
+  flex-direction: column;
+}
+.euiHeaderSectionItem:after {
+  top: 0 !important;
+}
