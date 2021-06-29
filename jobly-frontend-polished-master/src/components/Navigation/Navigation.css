@@ -1,0 +1,9 @@
+.avatar-menu {
+  display: flex;
+  justify-content: space-between;
+  min-width: 300px;
+}
+
+.avatar-menu .avatar-actions {
+  margin-left: 2rem;
+}

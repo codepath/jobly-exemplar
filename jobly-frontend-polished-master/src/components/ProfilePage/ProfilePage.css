@@ -1,0 +1,29 @@
+.profile-page {
+  flex: 1;
+}
+.profile-page-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem;
+}
+.profile-page-header h1 {
+  font-size: 3.5rem;
+  margin-right: 3.5rem;
+  margin-bottom: 1rem;
+}
+.profile-page-content-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.profile-page-content-body h2 {
+  margin-bottom: 1rem;
+}
+.profile-page-edit-icon-container {
+  width: 100%;
+}
+.profile-page-edit-icon {
+  margin: 0 !important;
+  margin-left: 100% !important;
+}
