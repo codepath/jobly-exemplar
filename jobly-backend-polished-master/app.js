@@ -1,55 +1,55 @@
-"use strict"
+"use strict";
 
 /** Express app for jobly. */
-const path = require("path")
-const express = require("express")
-const cors = require("cors")
+const path = require("path");
+const express = require("express");
+const cors = require("cors");
 
-const { NotFoundError } = require("./expressError")
+const { NotFoundError } = require("./expressError");
 
-const { authenticateJWT } = require("./middleware/auth")
-const authRoutes = require("./routes/auth")
-const companiesRoutes = require("./routes/companies")
-const usersRoutes = require("./routes/users")
-const jobsRoutes = require("./routes/jobs")
+const { authenticateJWT } = require("./middleware/auth");
+const authRoutes = require("./routes/auth");
+const companiesRoutes = require("./routes/companies");
+const usersRoutes = require("./routes/users");
+const jobsRoutes = require("./routes/jobs");
 
-const morgan = require("morgan")
+const morgan = require("morgan");
 
-const app = express()
+const app = express();
 
-app.use(cors())
-app.use(express.json())
-app.use(morgan("tiny"))
-app.use(authenticateJWT)
+app.use(cors());
+app.use(express.json());
+app.use(morgan("tiny"));
+app.use(authenticateJWT);
 
-app.use("/static", express.static(path.join(__dirname, "./")))
-app.use("/auth", authRoutes)
-app.use("/companies", companiesRoutes)
-app.use("/users", usersRoutes)
-app.use("/jobs", jobsRoutes)
+app.use("/static", express.static(path.join(__dirname, "./")));
+app.use("/auth", authRoutes);
+app.use("/companies", companiesRoutes);
+app.use("/users", usersRoutes);
+app.use("/jobs", jobsRoutes);
 
 app.get("/", function (req, res) {
   return res.status(200).json({
-    ping: "pong",
-  })
-})
+    ping: "pong"
+  });
+});
 
-app.use("/static", express.static(path.join(__dirname, "./public")))
+app.use("/static", express.static(path.join(__dirname, "./public")));
 
 /** Handle 404 errors -- this matches everything */
 app.use(function (req, res, next) {
-  return next(new NotFoundError())
-})
+  return next(new NotFoundError());
+});
 
 /** Generic error handler; anything unhandled goes here. */
 app.use(function (err, req, res, next) {
-  if (process.env.NODE_ENV !== "test") console.error(err.stack)
-  const status = err.status || 500
-  const message = err.message
+  if (process.env.NODE_ENV !== "test") console.error(err.stack);
+  const status = err.status || 500;
+  const message = err.message;
 
   return res.status(status).json({
-    error: { message, status },
-  })
-})
+    error: { message, status }
+  });
+});
 
-module.exports = app
+module.exports = app;

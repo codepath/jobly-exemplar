@@ -1,8 +1,12 @@
-import { Fragment } from "react"
+import { Fragment } from "react";
 
-import { EuiEmptyPrompt, EuiButton } from "@elastic/eui"
+import { EuiEmptyPrompt, EuiButton } from "@elastic/eui";
 
-export default function NotFoundMessage({ fetcherFn, message, title = "Something went wrong" }) {
+export default function NotFoundMessage({
+  fetcherFn,
+  message,
+  title = "Something went wrong"
+}) {
   return (
     <EuiEmptyPrompt
       iconType="editorStrike"
@@ -20,5 +24,5 @@ export default function NotFoundMessage({ fetcherFn, message, title = "Something
         ) : null
       }
     />
-  )
+  );
 }

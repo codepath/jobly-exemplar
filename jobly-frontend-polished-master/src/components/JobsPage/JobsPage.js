@@ -1,5 +1,5 @@
-import { Routes, Route } from "react-router-dom"
-import { JobList, NotFoundPage } from "components"
+import { Routes, Route } from "react-router-dom";
+import { JobList, NotFoundPage } from "components";
 
 export default function JobsPage() {
   return (
@@ -7,5 +7,5 @@ export default function JobsPage() {
       <Route path="/" element={<JobList />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
-  )
+  );
 }

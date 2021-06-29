@@ -1,7 +1,13 @@
-import { EuiAvatar } from "@elastic/eui"
-import { getAvatarName } from "utils/format"
+import { EuiAvatar } from "@elastic/eui";
+import { getAvatarName } from "utils/format";
 
-export default function UserAvatar({ user, size = "l", initialsLength = 1, type = "user", color }) {
+export default function UserAvatar({
+  user,
+  size = "l",
+  initialsLength = 1,
+  type = "user",
+  color
+}) {
   return (
     <EuiAvatar
       size={size}
@@ -11,5 +17,5 @@ export default function UserAvatar({ user, size = "l", initialsLength = 1, type 
       type={type}
       color={color}
     />
-  )
+  );
 }

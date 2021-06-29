@@ -1,20 +1,28 @@
-import { Fragment } from "react"
-import { EuiSpacer, EuiLoadingSpinner } from "@elastic/eui"
-import { JobCard, NotFoundMessage } from "components"
-import { useApplicationsContext, selectJobIdsAppliedFor } from "context/applications"
+import { Fragment } from "react";
+import { EuiSpacer, EuiLoadingSpinner } from "@elastic/eui";
+import { JobCard, NotFoundMessage } from "components";
+import {
+  useApplicationsContext,
+  selectJobIdsAppliedFor
+} from "context/applications";
 
-import "./JobCardList.css"
+import "./JobCardList.css";
 
 export default function JobCardList({ jobs, isFetching, error, fetchJobs }) {
-  const { applicationsState, applyForJob } = useApplicationsContext()
-  const jobIdsAppliedFor = selectJobIdsAppliedFor(applicationsState)
+  const { applicationsState, applyForJob } = useApplicationsContext();
+  const jobIdsAppliedFor = selectJobIdsAppliedFor(applicationsState);
 
   return (
     <div className="job-card-list-wrapper">
       {isFetching ? <EuiLoadingSpinner size="xl" /> : null}
-      {error ? <NotFoundMessage fetcherFn={() => fetchJobs()} message={error.toString()} /> : null}
+      {error ? (
+        <NotFoundMessage
+          fetcherFn={() => fetchJobs()}
+          message={error.toString()}
+        />
+      ) : null}
       {jobs.length ? (
-        jobs.map((job) =>
+        jobs.map(job =>
           job ? (
             <Fragment key={job.id}>
               <JobCard
@@ -35,5 +43,5 @@ export default function JobCardList({ jobs, isFetching, error, fetchJobs }) {
         />
       )}
     </div>
-  )
+  );
 }

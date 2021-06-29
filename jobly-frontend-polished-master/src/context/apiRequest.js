@@ -8,23 +8,23 @@
  * @returns { success, data?, error? }
  */
 export const apiRequest = async ({ dispatch, types, promise }) => {
-  dispatch({ type: types.REQUEST })
-  console.debug(`dispatching ${types.REQUEST}`)
+  dispatch({ type: types.REQUEST });
+  console.debug(`dispatching ${types.REQUEST}`);
 
   try {
-    const { data, error } = await promise()
+    const { data, error } = await promise();
     if (error) {
-      dispatch({ type: types.FAILURE, error })
-      console.debug(`dispatching ${types.FAILURE}`)
-      return { success: false, data: null, error }
+      dispatch({ type: types.FAILURE, error });
+      console.debug(`dispatching ${types.FAILURE}`);
+      return { success: false, data: null, error };
     } else {
-      dispatch({ type: types.SUCCESS, data })
-      console.debug(`dispatching ${types.SUCCESS}`)
-      return { success: true, data, error: null }
+      dispatch({ type: types.SUCCESS, data });
+      console.debug(`dispatching ${types.SUCCESS}`);
+      return { success: true, data, error: null };
     }
   } catch (error) {
-    dispatch({ type: types.FAILURE, error })
-    console.debug(`dispatching ${types.FAILURE}`)
-    return { success: false, data: null, error }
+    dispatch({ type: types.FAILURE, error });
+    console.debug(`dispatching ${types.FAILURE}`);
+    return { success: false, data: null, error };
   }
-}
+};

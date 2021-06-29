@@ -1,14 +1,21 @@
-import { useEffect } from "react"
-import { Helmet } from "react-helmet"
-import { AuthContextProvider, useAuthContext, selectUserFromAuthState } from "context/auth"
-import { UiContextProvider, useUiContext } from "context/ui"
-import { ApplicationsContextProvider, useApplicationsContext } from "context/applications"
-import config from "config"
-import { EuiGlobalToastList, EuiLoadingKibana, EuiSpacer } from "@elastic/eui"
-import "@elastic/eui/dist/eui_theme_light.css"
-import "./App.css"
+import { useEffect } from "react";
+import { Helmet } from "react-helmet";
+import {
+  AuthContextProvider,
+  useAuthContext,
+  selectUserFromAuthState
+} from "context/auth";
+import { UiContextProvider, useUiContext } from "context/ui";
+import {
+  ApplicationsContextProvider,
+  useApplicationsContext
+} from "context/applications";
+import config from "config";
+import { EuiGlobalToastList, EuiLoadingKibana, EuiSpacer } from "@elastic/eui";
+import "@elastic/eui/dist/eui_theme_light.css";
+import "./App.css";
 
-import { Routes } from "components"
+import { Routes } from "components";
 
 export default function AppContainer() {
   return (
@@ -26,27 +33,27 @@ export default function AppContainer() {
         </UiContextProvider>
       </AuthContextProvider>
     </>
-  )
+  );
 }
 
 function App() {
-  const { authState, fetchUserFromToken } = useAuthContext()
-  const { uiState, removeToast } = useUiContext()
-  const { setUserJobsAppliedFor } = useApplicationsContext()
+  const { authState, fetchUserFromToken } = useAuthContext();
+  const { uiState, removeToast } = useUiContext();
+  const { setUserJobsAppliedFor } = useApplicationsContext();
 
   useEffect(() => {
-    fetchUserFromToken()
-  }, [fetchUserFromToken])
+    fetchUserFromToken();
+  }, [fetchUserFromToken]);
 
   useEffect(() => {
-    const { isAuthenticated } = authState
-    const user = selectUserFromAuthState(authState)
+    const { isAuthenticated } = authState;
+    const user = selectUserFromAuthState(authState);
 
     if (isAuthenticated) {
-      setUserJobsAppliedFor(user?.applications || [])
+      setUserJobsAppliedFor(user?.applications || []);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authState])
+  }, [authState]);
 
   if (!authState.hasAttemptedAuthentication) {
     return (
@@ -54,7 +61,7 @@ function App() {
         <EuiSpacer size="xl" />
         <EuiLoadingKibana size="xl" />
       </>
-    )
+    );
   }
 
   return (
@@ -62,11 +69,11 @@ function App() {
       <Routes />
       <EuiGlobalToastList
         toasts={uiState.toastList}
-        dismissToast={(toast) => removeToast(toast)}
+        dismissToast={toast => removeToast(toast)}
         toastLifeTimeMs={config.alertDismissMs}
         side="right"
         className="auth-toast-list"
       />
     </>
-  )
+  );
 }

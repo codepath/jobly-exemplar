@@ -5,7 +5,7 @@
  * @return {Boolean}
  */
 export function validateEmail(email) {
-  return email?.indexOf("@") !== -1 && email.length >= 6 && email.length <= 60
+  return email?.indexOf("@") !== -1 && email.length >= 6 && email.length <= 60;
 }
 
 /**
@@ -16,7 +16,7 @@ export function validateEmail(email) {
  * @return {Boolean}
  */
 export function validatePassword(password, length = 5, maxLength = 20) {
-  return password?.length >= length && password?.length <= maxLength
+  return password?.length >= length && password?.length <= maxLength;
 }
 
 /**
@@ -26,7 +26,11 @@ export function validatePassword(password, length = 5, maxLength = 20) {
  * @return {Boolean}
  */
 export function validateUsername(username) {
-  return /^[a-zA-Z0-9_-]+$/.test(username) && username?.length >= 1 && username?.length <= 30
+  return (
+    /^[a-zA-Z0-9_-]+$/.test(username) &&
+    username?.length >= 1 &&
+    username?.length <= 30
+  );
 }
 
 /**
@@ -36,7 +40,7 @@ export function validateUsername(username) {
  * @return {Boolean}
  */
 export function validateName(name) {
-  return name?.length >= 1 && name?.length <= 30
+  return name?.length >= 1 && name?.length <= 30;
 }
 
 /**
@@ -46,7 +50,7 @@ export function validateName(name) {
  * @return {Boolean}
  */
 export function validatePrice(price) {
-  return /^\d+\.\d{1,2}$/.test(String(price).trim())
+  return /^\d+\.\d{1,2}$/.test(String(price).trim());
 }
 
 const validation = {
@@ -55,7 +59,7 @@ const validation = {
   username: validateUsername,
   firstName: validateName,
   lastName: validateName,
-  price: validatePrice,
-}
+  price: validatePrice
+};
 
-export default validation
+export default validation;

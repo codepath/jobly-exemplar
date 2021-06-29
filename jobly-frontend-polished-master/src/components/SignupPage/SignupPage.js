@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import {
   EuiPage,
   EuiPageBody,
@@ -6,10 +6,10 @@ import {
   EuiPageContentBody,
   EuiPageHeader,
   EuiPageHeaderSection,
-  EuiTitle,
-} from "@elastic/eui"
-import { SignupForm } from "components"
-import "./SignupPage.css"
+  EuiTitle
+} from "@elastic/eui";
+import { SignupForm } from "components";
+import "./SignupPage.css";
 
 export default function SignupPage() {
   return (
@@ -29,5 +29,5 @@ export default function SignupPage() {
         </EuiPageContent>
       </EuiPageBody>
     </EuiPage>
-  )
+  );
 }

@@ -36,4 +36,3 @@ If you see an error message like this:
 ![pg_conn_err](pg_conn_err.png)
 
 That means your connection string to postgres isn't working as expected. Debugging that issue can be difficult at time.
-

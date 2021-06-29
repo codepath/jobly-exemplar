@@ -1,8 +1,14 @@
-import { createContext, useContext, useReducer, useMemo, useCallback } from "react"
-import { apiClient } from "services"
-import { apiRequest } from "context/apiRequest"
+import {
+  createContext,
+  useContext,
+  useReducer,
+  useMemo,
+  useCallback
+} from "react";
+import { apiClient } from "services";
+import { apiRequest } from "context/apiRequest";
 
-const AuthContext = createContext(null)
+const AuthContext = createContext(null);
 
 const AuthActionTypes = {
   LOGOUT_USER: "LOGOUT_USER",
@@ -17,8 +23,8 @@ const AuthActionTypes = {
   FETCH_USER_FROM_TOKEN_FAILURE: "FETCH_USER_FROM_TOKEN_FAILURE",
   UPDATE_USER_PROFILE: "UPDATE_USER_PROFILE",
   UPDATE_USER_PROFILE_SUCCESS: "UPDATE_USER_PROFILE_SUCCESS",
-  UPDATE_USER_PROFILE_FAILURE: "UPDATE_USER_PROFILE_FAILURE",
-}
+  UPDATE_USER_PROFILE_FAILURE: "UPDATE_USER_PROFILE_FAILURE"
+};
 
 const initialState = {
   isLoading: false,
@@ -26,8 +32,8 @@ const initialState = {
   isAuthenticated: false,
   user: null,
   error: null,
-  hasAttemptedAuthentication: false,
-}
+  hasAttemptedAuthentication: false
+};
 
 function authReducer(state = initialState, action) {
   switch (action.type) {
@@ -35,8 +41,8 @@ function authReducer(state = initialState, action) {
       return {
         ...state,
         isLoading: true,
-        error: null,
-      }
+        error: null
+      };
     case AuthActionTypes.LOGIN_USER_SUCCESS:
       return {
         ...state,
@@ -45,22 +51,22 @@ function authReducer(state = initialState, action) {
         error: null,
         user: {
           ...(state.user || {}),
-          ...action.data.user,
-        },
-      }
+          ...action.data.user
+        }
+      };
     case AuthActionTypes.LOGIN_USER_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.error,
-        hasAttemptedAuthentication: true,
-      }
+        hasAttemptedAuthentication: true
+      };
     case AuthActionTypes.SIGNUP_USER:
       return {
         ...state,
         isLoading: true,
-        error: null,
-      }
+        error: null
+      };
     case AuthActionTypes.SIGNUP_USER_SUCCESS:
       return {
         ...state,
@@ -69,21 +75,21 @@ function authReducer(state = initialState, action) {
         error: null,
         user: {
           ...(state.user || {}),
-          ...action.data.user,
-        },
-      }
+          ...action.data.user
+        }
+      };
     case AuthActionTypes.SIGNUP_USER_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.error,
-        hasAttemptedAuthentication: true,
-      }
+        hasAttemptedAuthentication: true
+      };
     case AuthActionTypes.FETCH_USER_FROM_TOKEN:
       return {
         ...state,
-        isLoading: true,
-      }
+        isLoading: true
+      };
     case AuthActionTypes.FETCH_USER_FROM_TOKEN_SUCCESS:
       return {
         ...state,
@@ -91,21 +97,21 @@ function authReducer(state = initialState, action) {
         user: action.data.user,
         isAuthenticated: true,
         error: null,
-        hasAttemptedAuthentication: true,
-      }
+        hasAttemptedAuthentication: true
+      };
     case AuthActionTypes.FETCH_USER_FROM_TOKEN_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.error,
-        hasAttemptedAuthentication: true,
-      }
+        hasAttemptedAuthentication: true
+      };
     case AuthActionTypes.UPDATE_USER_PROFILE:
       return {
         ...state,
         isUpdating: true,
-        error: null,
-      }
+        error: null
+      };
     case AuthActionTypes.UPDATE_USER_PROFILE_SUCCESS:
       return {
         ...state,
@@ -113,54 +119,54 @@ function authReducer(state = initialState, action) {
         error: null,
         user: {
           ...state.user,
-          ...action.data.user,
-        },
-      }
+          ...action.data.user
+        }
+      };
     case AuthActionTypes.UPDATE_USER_PROFILE_FAILURE:
       return {
         ...state,
         isUpdating: false,
-        error: action.error,
-      }
+        error: action.error
+      };
     case AuthActionTypes.LOGOUT_USER:
-      return { ...initialState, hasAttemptedAuthentication: true }
+      return { ...initialState, hasAttemptedAuthentication: true };
     default:
-      return state
+      return state;
   }
 }
 
 export const AuthContextProvider = ({ children }) => {
-  const [authState, dispatch] = useReducer(authReducer, initialState)
+  const [authState, dispatch] = useReducer(authReducer, initialState);
 
-  console.debug({ authState })
+  console.debug({ authState });
 
   const loginUser = useCallback(
-    async (credentials) =>
+    async credentials =>
       await apiRequest({
         dispatch,
         types: {
           REQUEST: AuthActionTypes.LOGIN_USER,
           SUCCESS: AuthActionTypes.LOGIN_USER_SUCCESS,
-          FAILURE: AuthActionTypes.LOGIN_USER_FAILURE,
+          FAILURE: AuthActionTypes.LOGIN_USER_FAILURE
         },
-        promise: async () => await apiClient.loginUser(credentials),
+        promise: async () => await apiClient.loginUser(credentials)
       }),
     []
-  )
+  );
 
   const signupUser = useCallback(
-    async (credentials) =>
+    async credentials =>
       await apiRequest({
         dispatch,
         types: {
           REQUEST: AuthActionTypes.SIGNUP_USER,
           SUCCESS: AuthActionTypes.SIGNUP_USER_SUCCESS,
-          FAILURE: AuthActionTypes.SIGNUP_USER_FAILURE,
+          FAILURE: AuthActionTypes.SIGNUP_USER_FAILURE
         },
-        promise: async () => await apiClient.signupUser(credentials),
+        promise: async () => await apiClient.signupUser(credentials)
       }),
     []
-  )
+  );
 
   const fetchUserFromToken = useCallback(
     async () =>
@@ -169,45 +175,59 @@ export const AuthContextProvider = ({ children }) => {
         types: {
           REQUEST: AuthActionTypes.FETCH_USER_FROM_TOKEN,
           SUCCESS: AuthActionTypes.FETCH_USER_FROM_TOKEN_SUCCESS,
-          FAILURE: AuthActionTypes.FETCH_USER_FROM_TOKEN_FAILURE,
+          FAILURE: AuthActionTypes.FETCH_USER_FROM_TOKEN_FAILURE
         },
-        promise: async () => await apiClient.fetchUserFromToken(),
+        promise: async () => await apiClient.fetchUserFromToken()
       }),
     []
-  )
+  );
 
   const updateUserProfile = useCallback(
-    async (profileUpdates) =>
+    async profileUpdates =>
       await apiRequest({
         dispatch,
         types: {
           REQUEST: AuthActionTypes.UPDATE_USER_PROFILE,
           SUCCESS: AuthActionTypes.UPDATE_USER_PROFILE_SUCCESS,
-          FAILURE: AuthActionTypes.UPDATE_USER_PROFILE_FAILURE,
+          FAILURE: AuthActionTypes.UPDATE_USER_PROFILE_FAILURE
         },
-        promise: async () => await apiClient.updateUserProfile(profileUpdates),
+        promise: async () => await apiClient.updateUserProfile(profileUpdates)
       }),
     []
-  )
+  );
 
   const logoutUser = useCallback(async () => {
-    await apiClient.logoutUser()
-    dispatch({ type: AuthActionTypes.LOGOUT_USER })
-  }, [])
+    await apiClient.logoutUser();
+    dispatch({ type: AuthActionTypes.LOGOUT_USER });
+  }, []);
 
   const value = useMemo(
-    () => ({ authState, loginUser, signupUser, fetchUserFromToken, updateUserProfile, logoutUser }),
-    [authState, loginUser, signupUser, fetchUserFromToken, updateUserProfile, logoutUser]
-  )
+    () => ({
+      authState,
+      loginUser,
+      signupUser,
+      fetchUserFromToken,
+      updateUserProfile,
+      logoutUser
+    }),
+    [
+      authState,
+      loginUser,
+      signupUser,
+      fetchUserFromToken,
+      updateUserProfile,
+      logoutUser
+    ]
+  );
 
   return (
     <AuthContext.Provider value={value}>
       <>{children}</>
     </AuthContext.Provider>
-  )
-}
+  );
+};
 
 /* Select authenticated user from context state */
-export const selectUserFromAuthState = (authState) => authState?.user
+export const selectUserFromAuthState = authState => authState?.user;
 
-export const useAuthContext = () => useContext(AuthContext)
+export const useAuthContext = () => useContext(AuthContext);

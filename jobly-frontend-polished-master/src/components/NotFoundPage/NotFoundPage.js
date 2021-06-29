@@ -1,11 +1,11 @@
-import { useNavigate } from "react-router-dom"
-import { EuiEmptyPrompt, EuiButton } from "@elastic/eui"
+import { useNavigate } from "react-router-dom";
+import { EuiEmptyPrompt, EuiButton } from "@elastic/eui";
 
 export default function NotFoundPage({
   notFoundItem = "Page",
-  notFoundError = `Looks like there's nothing there. We must have misplaced it!`,
+  notFoundError = `Looks like there's nothing there. We must have misplaced it!`
 }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <EuiEmptyPrompt
@@ -18,5 +18,5 @@ export default function NotFoundPage({
         </EuiButton>
       }
     />
-  )
+  );
 }

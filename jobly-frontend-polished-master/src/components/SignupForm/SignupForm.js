@@ -1,45 +1,53 @@
-import { useState, useCallback, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import { useAuthContext } from "context/auth"
-import { useUiContext } from "context/ui"
-import { EuiButton, EuiCheckbox, EuiFieldText, EuiForm, EuiFormRow, EuiFieldPassword, EuiSpacer } from "@elastic/eui"
-import { htmlIdGenerator } from "@elastic/eui/lib/services"
-import { EuiCustomLink } from "components"
-import validation from "utils/validation"
-import config from "config"
-import "./SignupForm.css"
+import { useState, useCallback, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "context/auth";
+import { useUiContext } from "context/ui";
+import {
+  EuiButton,
+  EuiCheckbox,
+  EuiFieldText,
+  EuiForm,
+  EuiFormRow,
+  EuiFieldPassword,
+  EuiSpacer
+} from "@elastic/eui";
+import { htmlIdGenerator } from "@elastic/eui/lib/services";
+import { EuiCustomLink } from "components";
+import validation from "utils/validation";
+import config from "config";
+import "./SignupForm.css";
 
 export default function SignupFormContainer() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     username: "",
     email: "",
     password: "",
     passwordConfirm: "",
     firstName: "",
-    lastName: "",
-  })
-  const [formErrors, setFormErrors] = useState({})
-  const [agreedToTerms, setAgreedToTerms] = useState(false)
-  const [hasSubmitted, setHasSubmitted] = useState(false)
-  const { authState, signupUser } = useAuthContext()
-  const { addToast } = useUiContext()
+    lastName: ""
+  });
+  const [formErrors, setFormErrors] = useState({});
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const { authState, signupUser } = useAuthContext();
+  const { addToast } = useUiContext();
 
   useEffect(() => {
     if (authState.isAuthenticated) {
-      navigate("/companies/")
+      navigate("/companies/");
     }
-  }, [navigate, authState])
+  }, [navigate, authState]);
 
   const getFormErrors = () => {
-    const errors = [formErrors.required, formErrors.terms]
+    const errors = [formErrors.required, formErrors.terms];
 
     if (hasSubmitted && authState.error) {
-      errors.push(authState.error)
+      errors.push(authState.error);
     }
 
-    return errors.filter(Boolean)
-  }
+    return errors.filter(Boolean);
+  };
 
   return (
     <Signup
@@ -55,7 +63,7 @@ export default function SignupFormContainer() {
       signupUser={signupUser}
       addToast={addToast}
     />
-  )
+  );
 }
 
 const Signup = ({
@@ -69,82 +77,92 @@ const Signup = ({
   formErrors,
   setHasSubmitted,
   setAgreedToTerms,
-  addToast,
+  addToast
 }) => {
   const validateInput = useCallback(
     (label, value) => {
       // grab validation function and run it on input if it exists
       // if it doesn't exists, just assume the input is valid
-      const isValid = validation?.[label] ? validation?.[label]?.(value) : true
+      const isValid = validation?.[label] ? validation?.[label]?.(value) : true;
       // set an error if the validation function returns false
-      setFormErrors((errors) => ({ ...errors, [label]: !isValid }))
+      setFormErrors(errors => ({ ...errors, [label]: !isValid }));
     },
     [setFormErrors]
-  )
+  );
 
   const handleInputChange = useCallback(
     (label, value) => {
-      validateInput(label, value)
+      validateInput(label, value);
 
-      setForm((form) => ({ ...form, [label]: value }))
+      setForm(form => ({ ...form, [label]: value }));
     },
     [validateInput, setForm]
-  )
+  );
 
-  const handlePasswordConfirmChange = (value) => {
-    setFormErrors((errors) => ({
+  const handlePasswordConfirmChange = value => {
+    setFormErrors(errors => ({
       ...errors,
-      passwordConfirm: form.password !== value ? `Passwords do not match.` : null,
-    }))
+      passwordConfirm:
+        form.password !== value ? `Passwords do not match.` : null
+    }));
 
-    setForm((form) => ({ ...form, passwordConfirm: value }))
-  }
+    setForm(form => ({ ...form, passwordConfirm: value }));
+  };
 
-  const setAgreedToTermsCheckbox = (e) => {
-    setAgreedToTerms(e.target.checked)
-  }
+  const setAgreedToTermsCheckbox = e => {
+    setAgreedToTerms(e.target.checked);
+  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const handleSubmit = async e => {
+    e.preventDefault();
 
     // validate inputs before submitting
-    Object.keys(form).forEach((label) => validateInput(label, form[label]))
+    Object.keys(form).forEach(label => validateInput(label, form[label]));
     // if any input hasn't been entered in, return early
-    if (!Object.values(form).every((value) => Boolean(value))) {
-      setFormErrors((errors) => ({ ...errors, required: `You must fill out all fields.` }))
-      return
+    if (!Object.values(form).every(value => Boolean(value))) {
+      setFormErrors(errors => ({
+        ...errors,
+        required: `You must fill out all fields.`
+      }));
+      return;
     }
 
     // some additional validation
     if (form.password !== form.passwordConfirm) {
-      setFormErrors((errors) => ({ ...errors, password: `Passwords do not match.` }))
-      return
+      setFormErrors(errors => ({
+        ...errors,
+        password: `Passwords do not match.`
+      }));
+      return;
     }
 
     if (!agreedToTerms) {
-      setFormErrors((errors) => ({ ...errors, terms: `You must agree to the terms and conditions.` }))
-      return
+      setFormErrors(errors => ({
+        ...errors,
+        terms: `You must agree to the terms and conditions.`
+      }));
+      return;
     }
 
-    setHasSubmitted(true)
+    setHasSubmitted(true);
     const res = await signupUser({
       username: form.username,
       email: form.email,
       password: form.password,
       firstName: form.firstName,
-      lastName: form.lastName,
-    })
+      lastName: form.lastName
+    });
     if (!res.success) {
-      setForm((form) => ({ ...form, password: "", passwordConfirm: "" }))
+      setForm(form => ({ ...form, password: "", passwordConfirm: "" }));
       addToast({
         id: `signup-unsuccessful`,
         title: "Signup Failed",
         color: "danger",
         iconType: "danger",
-        toastLifeTimeMs: config.alertDismissMs,
-      })
+        toastLifeTimeMs: config.alertDismissMs
+      });
     }
-  }
+  };
 
   return (
     <div className="signup-form-wrapper">
@@ -164,7 +182,7 @@ const Signup = ({
             icon="email"
             placeholder="user@gmail.com"
             value={form.email}
-            onChange={(e) => handleInputChange("email", e.target.value)}
+            onChange={e => handleInputChange("email", e.target.value)}
             aria-label="Enter the email associated with your account."
             isInvalid={Boolean(formErrors.email)}
           />
@@ -180,7 +198,7 @@ const Signup = ({
             icon="user"
             placeholder="your_username"
             value={form.username}
-            onChange={(e) => handleInputChange("username", e.target.value)}
+            onChange={e => handleInputChange("username", e.target.value)}
             aria-label="Choose a username consisting of letters, numbers, underscores, and dashes."
             isInvalid={Boolean(formErrors.username)}
           />
@@ -195,7 +213,7 @@ const Signup = ({
           <EuiFieldPassword
             placeholder="••••••••••••"
             value={form.password}
-            onChange={(e) => handleInputChange("password", e.target.value)}
+            onChange={e => handleInputChange("password", e.target.value)}
             type="dual"
             aria-label="Enter your password."
             isInvalid={Boolean(formErrors.password)}
@@ -210,7 +228,7 @@ const Signup = ({
           <EuiFieldPassword
             placeholder="••••••••••••"
             value={form.passwordConfirm}
-            onChange={(e) => handlePasswordConfirmChange(e.target.value)}
+            onChange={e => handlePasswordConfirmChange(e.target.value)}
             type="dual"
             aria-label="Confirm your password."
             isInvalid={Boolean(formErrors.passwordConfirm)}
@@ -219,7 +237,7 @@ const Signup = ({
 
         {[
           { label: "First Name", value: "firstName" },
-          { label: "Last Name", value: "lastName" },
+          { label: "Last Name", value: "lastName" }
         ].map(({ label, value }) => (
           <EuiFormRow
             key={label}
@@ -231,7 +249,7 @@ const Signup = ({
             <EuiFieldText
               placeholder={label}
               value={form[value]}
-              onChange={(e) => handleInputChange(value, e.target.value)}
+              onChange={e => handleInputChange(value, e.target.value)}
               aria-label={label}
               isInvalid={Boolean(formErrors[value])}
             />
@@ -243,7 +261,7 @@ const Signup = ({
           id={htmlIdGenerator()()}
           label="I agree to the terms and conditions."
           checked={agreedToTerms}
-          onChange={(e) => setAgreedToTermsCheckbox(e)}
+          onChange={e => setAgreedToTermsCheckbox(e)}
         />
         <EuiSpacer />
         <EuiButton type="submit" isLoading={isLoading} fill>
@@ -254,8 +272,9 @@ const Signup = ({
       <EuiSpacer size="xl" />
 
       <span className="need-account-link">
-        Already have an account? Log in <EuiCustomLink to="/login">here</EuiCustomLink>.
+        Already have an account? Log in{" "}
+        <EuiCustomLink to="/login">here</EuiCustomLink>.
       </span>
     </div>
-  )
-}
+  );
+};

@@ -1,6 +1,16 @@
-import { EuiButton, EuiFieldSearch, EuiFlexGroup, EuiFlexItem } from "@elastic/eui"
+import {
+  EuiButton,
+  EuiFieldSearch,
+  EuiFlexGroup,
+  EuiFlexItem
+} from "@elastic/eui";
 
-export default function SearchForm({ value, handleOnChange, handleOnSubmit, placeholder = "Search companies" }) {
+export default function SearchForm({
+  value,
+  handleOnChange,
+  handleOnSubmit,
+  placeholder = "Search companies"
+}) {
   return (
     <EuiFlexGroup>
       <EuiFlexItem>
@@ -8,7 +18,7 @@ export default function SearchForm({ value, handleOnChange, handleOnSubmit, plac
           placeholder={placeholder}
           value={value}
           fullWidth
-          onChange={(e) => handleOnChange(e.target.value)}
+          onChange={e => handleOnChange(e.target.value)}
           isClearable={true}
           aria-label={placeholder}
         />
@@ -17,5 +27,5 @@ export default function SearchForm({ value, handleOnChange, handleOnSubmit, plac
         <EuiButton onClick={() => handleOnSubmit()}>Search</EuiButton>
       </EuiFlexItem>
     </EuiFlexGroup>
-  )
+  );
 }

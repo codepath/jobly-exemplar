@@ -1,11 +1,25 @@
-import { EuiButton, EuiFieldText, EuiForm, EuiFormRow, EuiFieldPassword, EuiSpacer } from "@elastic/eui"
-import { useProfileForm } from "hooks/useProfileForm"
-import "./ProfileForm.css"
+import {
+  EuiButton,
+  EuiFieldText,
+  EuiForm,
+  EuiFormRow,
+  EuiFieldPassword,
+  EuiSpacer
+} from "@elastic/eui";
+import { useProfileForm } from "hooks/useProfileForm";
+import "./ProfileForm.css";
 
 export default function ProfileForm({ setIsEditing }) {
-  const { isUpdating, form, formErrors, getFormErrors, handleInputChange, handleSubmit } = useProfileForm({
-    setIsEditing,
-  })
+  const {
+    isUpdating,
+    form,
+    formErrors,
+    getFormErrors,
+    handleInputChange,
+    handleSubmit
+  } = useProfileForm({
+    setIsEditing
+  });
 
   return (
     <div className="profile-form-wrapper">
@@ -25,7 +39,7 @@ export default function ProfileForm({ setIsEditing }) {
             icon="email"
             placeholder="user@gmail.com"
             value={form.email}
-            onChange={(e) => handleInputChange("email", e.target.value)}
+            onChange={e => handleInputChange("email", e.target.value)}
             aria-label="Enter the email associated with your account."
             isInvalid={Boolean(formErrors.email)}
           />
@@ -40,7 +54,7 @@ export default function ProfileForm({ setIsEditing }) {
           <EuiFieldPassword
             placeholder="••••••••••••"
             value={form.password}
-            onChange={(e) => handleInputChange("password", e.target.value)}
+            onChange={e => handleInputChange("password", e.target.value)}
             type="dual"
             aria-label="Enter a new password."
             isInvalid={Boolean(formErrors.password)}
@@ -49,13 +63,17 @@ export default function ProfileForm({ setIsEditing }) {
 
         {[
           { label: "First Name", value: "firstName" },
-          { label: "Last Name", value: "lastName" },
+          { label: "Last Name", value: "lastName" }
         ].map(({ label, value }) => (
-          <EuiFormRow key={label} label={label} helpText={`Your legal ${label.toLowerCase()}.`}>
+          <EuiFormRow
+            key={label}
+            label={label}
+            helpText={`Your legal ${label.toLowerCase()}.`}
+          >
             <EuiFieldText
               placeholder={label}
               value={form[value]}
-              onChange={(e) => handleInputChange(value, e.target.value)}
+              onChange={e => handleInputChange(value, e.target.value)}
               aria-label={label}
               isInvalid={Boolean(formErrors[value])}
             />
@@ -64,10 +82,16 @@ export default function ProfileForm({ setIsEditing }) {
 
         <EuiSpacer size="m" />
 
-        <EuiButton type="submit" isLoading={isUpdating} fill iconType="save" iconSide="right">
+        <EuiButton
+          type="submit"
+          isLoading={isUpdating}
+          fill
+          iconType="save"
+          iconSide="right"
+        >
           Save Profile
         </EuiButton>
       </EuiForm>
     </div>
-  )
+  );
 }

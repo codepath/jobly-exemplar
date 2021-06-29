@@ -1,15 +1,29 @@
-import { EuiButton, EuiBadge, EuiCard, EuiFlexGroup, EuiFlexItem, EuiSpacer } from "@elastic/eui"
-import { formatPrice } from "utils/format"
-import "./JobCard.css"
+import {
+  EuiButton,
+  EuiBadge,
+  EuiCard,
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiSpacer
+} from "@elastic/eui";
+import { formatPrice } from "utils/format";
+import "./JobCard.css";
 
-export default function JobCard({ job, userHasAppliedForJob, applyForJob, isLoading }) {
+export default function JobCard({
+  job,
+  userHasAppliedForJob,
+  applyForJob,
+  isLoading
+}) {
   const title = (
     <EuiFlexGroup justifyContent="spaceBetween" alignItems="center">
       <EuiFlexItem grow={false}>{job.title}</EuiFlexItem>
       <EuiFlexItem grow={false}>
         <EuiFlexGroup>
           <EuiFlexItem>
-            <EuiBadge color="secondary">Salary: {formatPrice(job.salary)}</EuiBadge>
+            <EuiBadge color="secondary">
+              Salary: {formatPrice(job.salary)}
+            </EuiBadge>
           </EuiFlexItem>
           {job.equity ? (
             <EuiFlexItem>
@@ -21,7 +35,7 @@ export default function JobCard({ job, userHasAppliedForJob, applyForJob, isLoad
         <EuiSpacer size="xs" />
       </EuiFlexItem>
     </EuiFlexGroup>
-  )
+  );
 
   const footer = (
     <>
@@ -33,14 +47,26 @@ export default function JobCard({ job, userHasAppliedForJob, applyForJob, isLoad
               APPLIED!
             </EuiButton>
           ) : (
-            <EuiButton fill color="primary" onClick={() => applyForJob()} isDisabled={isLoading}>
+            <EuiButton
+              fill
+              color="primary"
+              onClick={() => applyForJob()}
+              isDisabled={isLoading}
+            >
               APPLY
             </EuiButton>
           )}
         </EuiFlexItem>
       </EuiFlexGroup>
     </>
-  )
+  );
 
-  return <EuiCard className="job-card" textAlign="left" title={title} footer={footer} />
+  return (
+    <EuiCard
+      className="job-card"
+      textAlign="left"
+      title={title}
+      footer={footer}
+    />
+  );
 }

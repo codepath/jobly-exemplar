@@ -1,8 +1,8 @@
-"use strict"
+"use strict";
 
-const db = require("../db")
-const { NotFoundError } = require("../expressError")
-const { sqlForPartialUpdate } = require("../helpers/sql")
+const db = require("../db");
+const { NotFoundError } = require("../expressError");
+const { sqlForPartialUpdate } = require("../helpers/sql");
 
 /** Related functions for companies. */
 
@@ -23,10 +23,10 @@ class Job {
            VALUES ($1, $2, $3, $4)
            RETURNING id, title, salary, equity, company_handle AS "companyHandle"`,
       [data.title, data.salary, data.equity, data.companyHandle]
-    )
-    let job = result.rows[0]
+    );
+    let job = result.rows[0];
 
-    return job
+    return job;
   }
 
   /** Find all jobs (optional filter on searchFilters).
@@ -47,36 +47,36 @@ class Job {
                         j.company_handle AS "companyHandle",
                         c.name AS "companyName"
                  FROM jobs j 
-                   LEFT JOIN companies AS c ON c.handle = j.company_handle`
-    let whereExpressions = []
-    let queryValues = []
+                   LEFT JOIN companies AS c ON c.handle = j.company_handle`;
+    let whereExpressions = [];
+    let queryValues = [];
 
     // For each possible search term, add to whereExpressions and
     // queryValues so we can generate the right SQL
 
     if (minSalary !== undefined) {
-      queryValues.push(minSalary)
-      whereExpressions.push(`salary >= $${queryValues.length}`)
+      queryValues.push(minSalary);
+      whereExpressions.push(`salary >= $${queryValues.length}`);
     }
 
     if (hasEquity === true) {
-      whereExpressions.push(`equity > 0`)
+      whereExpressions.push(`equity > 0`);
     }
 
     if (title !== undefined) {
-      queryValues.push(`%${title}%`)
-      whereExpressions.push(`title ILIKE $${queryValues.length}`)
+      queryValues.push(`%${title}%`);
+      whereExpressions.push(`title ILIKE $${queryValues.length}`);
     }
 
     if (whereExpressions.length > 0) {
-      query += " WHERE " + whereExpressions.join(" AND ")
+      query += " WHERE " + whereExpressions.join(" AND ");
     }
 
     // Finalize query and return results
 
-    query += " ORDER BY title"
-    const jobsRes = await db.query(query, queryValues)
-    return jobsRes.rows
+    query += " ORDER BY title";
+    const jobsRes = await db.query(query, queryValues);
+    return jobsRes.rows;
   }
 
   /** Given a job id, return data about job.
@@ -97,11 +97,11 @@ class Job {
            FROM jobs
            WHERE id = $1`,
       [id]
-    )
+    );
 
-    const job = jobRes.rows[0]
+    const job = jobRes.rows[0];
 
-    if (!job) throw new NotFoundError(`No job: ${id}`)
+    if (!job) throw new NotFoundError(`No job: ${id}`);
 
     const companiesRes = await db.query(
       `SELECT handle,
@@ -112,12 +112,12 @@ class Job {
            FROM companies
            WHERE handle = $1`,
       [job.companyHandle]
-    )
+    );
 
-    delete job.companyHandle
-    job.company = companiesRes.rows[0]
+    delete job.companyHandle;
+    job.company = companiesRes.rows[0];
 
-    return job
+    return job;
   }
 
   /** Update job data with `data`.
@@ -133,8 +133,8 @@ class Job {
    */
 
   static async update(id, data) {
-    const { setCols, values } = sqlForPartialUpdate(data, {})
-    const idVarIdx = "$" + (values.length + 1)
+    const { setCols, values } = sqlForPartialUpdate(data, {});
+    const idVarIdx = "$" + (values.length + 1);
 
     const querySql = `UPDATE jobs 
                       SET ${setCols} 
@@ -143,13 +143,13 @@ class Job {
                                 title, 
                                 salary, 
                                 equity,
-                                company_handle AS "companyHandle"`
-    const result = await db.query(querySql, [...values, id])
-    const job = result.rows[0]
+                                company_handle AS "companyHandle"`;
+    const result = await db.query(querySql, [...values, id]);
+    const job = result.rows[0];
 
-    if (!job) throw new NotFoundError(`No job: ${id}`)
+    if (!job) throw new NotFoundError(`No job: ${id}`);
 
-    return job
+    return job;
   }
 
   /** Delete given job from database; returns undefined.
@@ -164,11 +164,11 @@ class Job {
            WHERE id = $1
            RETURNING id`,
       [id]
-    )
-    const job = result.rows[0]
+    );
+    const job = result.rows[0];
 
-    if (!job) throw new NotFoundError(`No job: ${id}`)
+    if (!job) throw new NotFoundError(`No job: ${id}`);
   }
 }
 
-module.exports = Job
+module.exports = Job;

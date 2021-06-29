@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from "react";
 import {
   EuiHorizontalRule,
   EuiIcon,
@@ -12,16 +12,16 @@ import {
   EuiText,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiButtonIcon,
-} from "@elastic/eui"
-import { useAuthContext, selectUserFromAuthState } from "context/auth"
-import { ProfileForm, UserAvatar } from "components"
-import "./ProfilePage.css"
+  EuiButtonIcon
+} from "@elastic/eui";
+import { useAuthContext, selectUserFromAuthState } from "context/auth";
+import { ProfileForm, UserAvatar } from "components";
+import "./ProfilePage.css";
 
 export default function ProfilePage() {
-  const [isEditing, setIsEditing] = useState(false)
-  const { authState } = useAuthContext()
-  const user = selectUserFromAuthState(authState)
+  const [isEditing, setIsEditing] = useState(false);
+  const { authState } = useAuthContext();
+  const user = selectUserFromAuthState(authState);
 
   return (
     <EuiPage className="profile-page">
@@ -39,9 +39,16 @@ export default function ProfilePage() {
               <ProfileForm setIsEditing={setIsEditing} />
             ) : (
               <>
-                <EuiFlexGroup justifyContent="flexEnd" className="profile-page-edit-icon-container">
+                <EuiFlexGroup
+                  justifyContent="flexEnd"
+                  className="profile-page-edit-icon-container"
+                >
                   <EuiFlexItem className="profile-page-edit-icon">
-                    <EuiButtonIcon iconType="documentEdit" aria-label="edit" onClick={() => setIsEditing(true)} />
+                    <EuiButtonIcon
+                      iconType="documentEdit"
+                      aria-label="edit"
+                      onClick={() => setIsEditing(true)}
+                    />
                   </EuiFlexItem>
                 </EuiFlexGroup>
                 <UserAvatar size="xl" user={user} initialsLength={2} />
@@ -53,7 +60,10 @@ export default function ProfilePage() {
                     <EuiIcon type="email" /> {user.email}
                   </p>
                   <p>
-                    <EuiIcon type="user" /> {user.firstName ? user.firstName : "First name not specified"}{" "}
+                    <EuiIcon type="user" />{" "}
+                    {user.firstName
+                      ? user.firstName
+                      : "First name not specified"}{" "}
                     {user.lastName ? user.lastName : "Last name not specified"}
                   </p>
 
@@ -66,5 +76,5 @@ export default function ProfilePage() {
         </EuiPageContent>
       </EuiPageBody>
     </EuiPage>
-  )
+  );
 }

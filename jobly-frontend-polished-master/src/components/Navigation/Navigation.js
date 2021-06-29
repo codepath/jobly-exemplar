@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { useNavigate, Link } from "react-router-dom"
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import {
   EuiHeader,
   EuiHeaderSection,
@@ -8,29 +8,29 @@ import {
   EuiHeaderSectionItemButton,
   EuiPopover,
   EuiFlexGroup,
-  EuiFlexItem,
-} from "@elastic/eui"
-import { EuiCustomLink, UserAvatar } from "components"
-import { useAuthContext, selectUserFromAuthState } from "context/auth"
-import "./Navigation.css"
+  EuiFlexItem
+} from "@elastic/eui";
+import { EuiCustomLink, UserAvatar } from "components";
+import { useAuthContext, selectUserFromAuthState } from "context/auth";
+import "./Navigation.css";
 
 export default function Navbar() {
-  const [avatarMenuOpen, setAvatarMenuOpen] = useState(false)
-  const navigate = useNavigate()
-  const { authState, logoutUser } = useAuthContext()
+  const [avatarMenuOpen, setAvatarMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const { authState, logoutUser } = useAuthContext();
 
-  const user = selectUserFromAuthState(authState)
-  if (!authState.hasAttemptedAuthentication) return null
+  const user = selectUserFromAuthState(authState);
+  if (!authState.hasAttemptedAuthentication) return null;
 
-  const toggleAvatarMenu = () => setAvatarMenuOpen(!avatarMenuOpen)
+  const toggleAvatarMenu = () => setAvatarMenuOpen(!avatarMenuOpen);
 
-  const closeAvatarMenu = () => setAvatarMenuOpen(false)
+  const closeAvatarMenu = () => setAvatarMenuOpen(false);
 
   const handleLogout = () => {
-    closeAvatarMenu()
-    logoutUser()
-    navigate("/")
-  }
+    closeAvatarMenu();
+    logoutUser();
+    navigate("/");
+  };
 
   // const navigate = useNavigate()
 
@@ -55,7 +55,7 @@ export default function Navbar() {
         </EuiHeaderLinks>
       )}
     </EuiHeaderSectionItemButton>
-  )
+  );
 
   const renderAvatarMenu = () =>
     user ? (
@@ -83,7 +83,7 @@ export default function Navbar() {
           </EuiFlexItem>
         </EuiFlexGroup>
       </div>
-    ) : null
+    ) : null;
 
   return (
     <EuiHeader>
@@ -121,5 +121,5 @@ export default function Navbar() {
         </EuiPopover>
       </EuiHeaderSection>
     </EuiHeader>
-  )
+  );
 }
