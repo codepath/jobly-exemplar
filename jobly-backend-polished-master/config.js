@@ -23,7 +23,7 @@ function getDatabaseUri() {
   const dbProdName = process.env.DATABASE_NAME || "jobly";
   const dbName = process.env.NODE_ENV === "test" ? dbTestName : dbProdName;
 
-  return `postgresql://${dbUser}:${dbPass}@${dbHost}:${dbPort}/${dbName}`;
+  return `postgresql://${dbUser}:${dbPass}@${dbHost}:${dbPort}:${dbName}`;
 }
 
 // Speed up bcrypt during tests, since the algorithm safety isn't being tested

@@ -94,7 +94,7 @@ const Signup = ({
     (label, value) => {
       validateInput(label, value);
 
-      setForm(form => ({ ...form, [label]: value }));
+      setForm(form => ({ [label]: value }));
     },
     [validateInput, setForm]
   );

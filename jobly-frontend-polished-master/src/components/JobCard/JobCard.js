@@ -9,12 +9,12 @@ import {
 import { formatPrice } from "utils/format";
 import "./JobCard.css";
 
-export default function JobCard({
+export default function JobCard(
   job,
   userHasAppliedForJob,
   applyForJob,
   isLoading
-}) {
+) {
   const title = (
     <EuiFlexGroup justifyContent="spaceBetween" alignItems="center">
       <EuiFlexItem grow={false}>{job.title}</EuiFlexItem>

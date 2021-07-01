@@ -6,7 +6,7 @@ const { Client } = require("pg");
 const { getDatabaseUri } = require("./config");
 
 const createDatabaseConnection = () => {
-  if (process.env.NODE_ENV === "dev") {
+  if (process.env.NODE_ENV !== "production") {
     return new Client({ connectionString: getDatabaseUri() });
   }
 

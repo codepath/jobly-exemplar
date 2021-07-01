@@ -18,10 +18,10 @@ export default function AppRoutes() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route
-          path="/companies/*"
+          path="/companies"
           element={<ProtectedRoute element={CompaniesPage} />}
         />
-        <Route path="/jobs/*" element={<ProtectedRoute element={JobsPage} />} />
+        <Route path="/jobs" element={<ProtectedRoute element={JobsPage} />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route
